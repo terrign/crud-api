@@ -8,7 +8,7 @@
     "start:dev": "tsx watch src/index.ts",
     "start:prod": "pnpm run build && node dist/app.js",
     "test": "jest",
-    "lint": "eslint --fix src/*.ts"
+    "lint": "eslint --fix src/**/*.ts"
   },
   "type": "module",
   "author": "terrign",
@@ -24,6 +24,8 @@
     "@typescript-eslint/eslint-plugin": "^8.10.0",
     "@typescript-eslint/parser": "^8.10.0",
     "clean-webpack-plugin": "^4.0.0",
+    "dotenv": "^16.4.5",
+    "dotenv-webpack": "^8.1.0",
     "eslint": "^9.12.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",

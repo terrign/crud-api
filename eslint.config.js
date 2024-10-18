@@ -27,10 +27,10 @@ export default [
       'import/prefer-default-export': 'off',
       'import/no-default-export': 'error',
       'import/no-cycle': 'error',
-      'no-console': 'warn',
-      '@stylistic/semi': 'error',
       '@stylistic/indent': ['error', 2],
+      '@stylistic/brace-style': ['error', '1tbs'],
       '@stylistic/max-len': ['error', 120],
+      '@stylistic/quote-props': ['error', 'as-needed'],
       '@stylistic/object-curly-newline': [
         'error',
         {
@@ -68,6 +68,6 @@ export default [
   },
   {
     files: ['*.config.js'],
-    rules: { 'import/no-default-export': 'off' },
+    rules: { 'import/no-default-export': 'off', '@stylistic/quote-props': ['error', 'consistent'] },
   },
 ];
