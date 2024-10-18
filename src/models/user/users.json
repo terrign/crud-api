@@ -1,0 +1,14 @@
+{
+  "233d287c-4dcf-4a58-823f-e4a698874dfa": {
+    "id": "233d287c-4dcf-4a58-823f-e4a698874dfa",
+    "name": "John",
+    "age": 22,
+    "hobbies": ["hiking"]
+  },
+  "f252cc50-5b30-404d-a1d0-72d6ba7983da": {
+    "id": "f252cc50-5b30-404d-a1d0-72d6ba7983da",
+    "name": "Vitty",
+    "age": 33,
+    "hobbies": ["coocking", "farming"]
+  }
+}
