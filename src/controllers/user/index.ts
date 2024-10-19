@@ -1,4 +1,4 @@
-import { create, getAll, getById, remove } from '@/models/user';
+import { create, getAll, getById, remove, update } from '@/models/user';
 import { isValidId, type TController, type TUser } from '@/types';
 import { parseUrl, readBody, responseError } from '@/utils';
 
@@ -33,10 +33,8 @@ const getUserById: TController = async (req, res) => {
 };
 
 const createUser: TController = async (req, res) => {
-  const body = await readBody(req);
-
   try {
-    const user = JSON.parse(body) as TUser;
+    const user = await readBody<TUser>(req);
     const result = await create(user);
 
     if (result.ok) {
@@ -77,4 +75,34 @@ const deleteUser: TController = async (req, res) => {
   res.write(responseError(result.desc));
 };
 
-export { createUser, deleteUser, getAllUsers, getUserById };
+const updateUser: TController = async (req, res) => {
+  const userId = parseUrl(req).pathname.split('/').find(isValidId);
+
+  if (!isValidId(userId)) {
+    res.statusCode = 400;
+    res.write(responseError('Invalid user id'));
+
+    return;
+  }
+
+  try {
+    const user = await readBody<Omit<TUser, 'id'>>(req);
+    const result = await update({ ...user, id: userId });
+
+    if (result.ok) {
+      res.statusCode = 200;
+      res.write(JSON.stringify(result.desc));
+
+      return;
+    }
+
+    res.statusCode = 404;
+    res.write(responseError(result.desc));
+  } catch (e) {
+    console.error('updateUser', e);
+    res.statusCode = 400;
+    res.write(responseError('Invalid format'));
+  }
+};
+
+export { createUser, deleteUser, getAllUsers, getUserById, updateUser };

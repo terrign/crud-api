@@ -6,7 +6,7 @@ const parseUrl = (req: IncomingMessage) => new URL(`${API_URL}${req.url}`);
 
 const responseError = (error: string) => JSON.stringify({ error });
 
-const readBody = async (req: IncomingMessage): Promise<string> => {
+const readBody = async <T = unknown>(req: IncomingMessage): Promise<T> => {
   const body: Uint8Array[] = [];
 
   return new Promise((resolve, reject) => {
@@ -16,7 +16,7 @@ const readBody = async (req: IncomingMessage): Promise<string> => {
       })
       .on('end', () => {
         try {
-          const parsedBody = Buffer.concat(body).toString();
+          const parsedBody = JSON.parse(Buffer.concat(body).toString()) as T;
           resolve(parsedBody);
         } catch (error) {
           reject(error);

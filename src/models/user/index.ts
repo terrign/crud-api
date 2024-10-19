@@ -51,7 +51,14 @@ const create = async (newUser: Omit<TUser, 'id'>): Promise<TCreateReturnType> =>
     return { ok: false, desc: validated.error };
   }
 
-  const newRecord = { id: randomUUID(), ...newUser };
+  const { username, hobbies, age } = newUser;
+
+  const newRecord = {
+    id: randomUUID(),
+    username,
+    hobbies,
+    age,
+  };
 
   const { add } = useStore();
 
@@ -64,7 +71,7 @@ const create = async (newUser: Omit<TUser, 'id'>): Promise<TCreateReturnType> =>
   return { ok: false, desc: 'Something went wrong' };
 };
 
-type TRemoveReturn = { ok: true; deletedUser: TUser } | { ok: false; desc: string };
+type TRemoveReturn = { ok: true } | { ok: false; desc: string };
 
 const remove = async (id: UUID): Promise<TRemoveReturn> => {
   const { remove } = useStore();
@@ -72,10 +79,37 @@ const remove = async (id: UUID): Promise<TRemoveReturn> => {
   const res = await remove(id);
 
   if (res) {
-    return { ok: true, deletedUser: res };
+    return { ok: true };
   }
 
-  return { ok: false, desc: 'User does not exist' };
+  return { ok: false, desc: 'User not found' };
 };
 
-export { create, getAll, getById, remove };
+const update = async (updatedUser: TUser): Promise<TCreateReturnType> => {
+  const validated = validateUser(updatedUser);
+
+  if (!validated.ok) {
+    return { ok: false, desc: validated.error };
+  }
+
+  const { username, hobbies, age } = updatedUser;
+
+  const updatedRecord = {
+    id: updatedUser.id,
+    username,
+    hobbies,
+    age,
+  };
+
+  const { update } = useStore();
+
+  const res = await update(updatedRecord);
+
+  if (res) {
+    return { ok: true, desc: updatedRecord };
+  }
+
+  return { ok: false, desc: 'User not found' };
+};
+
+export { create, getAll, getById, remove, update };

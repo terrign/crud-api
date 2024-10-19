@@ -1,6 +1,6 @@
 import type { TApi } from '@/types';
 
-import { createUser, deleteUser, getAllUsers, getUserById } from './user';
+import { createUser, deleteUser, getAllUsers, getUserById, updateUser } from './user';
 
 const serverEndpoints = {
   api: {
@@ -10,7 +10,7 @@ const serverEndpoints = {
       '[userid]': {
         GET: getUserById,
         DELETE: deleteUser,
-        PUT: async () => {},
+        PUT: updateUser,
       },
     },
   },
