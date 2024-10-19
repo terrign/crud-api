@@ -1,3 +1,4 @@
+import type { UUID } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
 
 import type { TUser, TUserStore } from '@/types';
@@ -33,11 +34,29 @@ function useStore() {
     }
   };
 
-  const _delete = async () => {
+  const remove = async (id: UUID) => {
+    const users = await get();
 
+    if (!users[id]) {
+      return false;
+    }
+
+    const record = { ...users[id] };
+
+    delete users[id];
+
+    try {
+      await writeFile(pathToStore, JSON.stringify(users));
+
+      return record;
+    } catch (e) {
+      console.error('useStore: delete', e);
+
+      return false;
+    }
   };
 
-  return { get, add, delete: _delete };
+  return { get, add, remove };
 }
 
 export { useStore };

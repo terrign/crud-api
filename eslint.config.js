@@ -27,6 +27,7 @@ export default [
       'import/prefer-default-export': 'off',
       'import/no-default-export': 'error',
       'import/no-cycle': 'error',
+      '@typescript-eslint/no-dynamic-delete': 'off',
       '@stylistic/indent': ['error', 2],
       '@stylistic/brace-style': ['error', '1tbs'],
       '@stylistic/max-len': ['error', 120],

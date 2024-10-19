@@ -12,7 +12,7 @@ const isValidId = (candidate: string | undefined): candidate is UUID => {
   return Boolean(candidate.match(V4UUID_REG_EXP));
 };
 
-const isController = (candidate: TController | TApi): candidate is TController => {
+const isController = (candidate: TController | TApi | null): candidate is TController => {
   if (typeof candidate === 'function') {
     return true;
   }
@@ -20,7 +20,7 @@ const isController = (candidate: TController | TApi): candidate is TController =
   return false;
 };
 
-const isWildCard = (candidate: string): candidate is TDynamicRoute => {
+const isDynamicRoute = (candidate: string): candidate is TDynamicRoute => {
   if (!candidate.startsWith('[')) {
     return false;
   }
@@ -32,4 +32,4 @@ const isWildCard = (candidate: string): candidate is TDynamicRoute => {
   return true;
 };
 
-export { isController, isValidId, isWildCard };
+export { isController, isDynamicRoute, isValidId };

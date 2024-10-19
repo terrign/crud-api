@@ -64,6 +64,18 @@ const create = async (newUser: Omit<TUser, 'id'>): Promise<TCreateReturnType> =>
   return { ok: false, desc: 'Something went wrong' };
 };
 
-// const deleteUser = async (id: UUID) => {};
+type TRemoveReturn = { ok: true; deletedUser: TUser } | { ok: false; desc: string };
 
-export { create, getAll, getById };
+const remove = async (id: UUID): Promise<TRemoveReturn> => {
+  const { remove } = useStore();
+
+  const res = await remove(id);
+
+  if (res) {
+    return { ok: true, deletedUser: res };
+  }
+
+  return { ok: false, desc: 'User does not exist' };
+};
+
+export { create, getAll, getById, remove };

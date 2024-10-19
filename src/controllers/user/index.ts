@@ -1,4 +1,4 @@
-import { create, getAll, getById } from '@/models/user';
+import { create, getAll, getById, remove } from '@/models/user';
 import { isValidId, type TController, type TUser } from '@/types';
 import { parseUrl, readBody, responseError } from '@/utils';
 
@@ -55,4 +55,26 @@ const createUser: TController = async (req, res) => {
   }
 };
 
-export { createUser, getAllUsers, getUserById };
+const deleteUser: TController = async (req, res) => {
+  const userId = parseUrl(req).pathname.split('/').find(isValidId);
+
+  if (!isValidId(userId)) {
+    res.statusCode = 400;
+    res.write(responseError('Invalid user id'));
+
+    return;
+  }
+
+  const result = await remove(userId);
+
+  if (result.ok) {
+    res.statusCode = 204;
+
+    return;
+  }
+
+  res.statusCode = 404;
+  res.write(responseError(result.desc));
+};
+
+export { createUser, deleteUser, getAllUsers, getUserById };

@@ -1,6 +1,6 @@
 import { serverEndpoints } from '@/controllers/constants';
 import type { TApi, TController, TDynamicRoute } from '@/types';
-import { isController, isWildCard } from '@/types/guards';
+import { isController, isDynamicRoute } from '@/types/guards';
 
 const getController = (path: string, method?: string): TController | null => {
   if (!method) {
@@ -25,17 +25,21 @@ const getController = (path: string, method?: string): TController | null => {
       continue;
     }
 
-    const wildCard: TDynamicRoute | undefined = Object.keys(current).find(isWildCard);
+    const dynamicRoute: TDynamicRoute | undefined = Object.keys(current).find(isDynamicRoute);
 
-    if (wildCard) {
-      current = current[wildCard];
+    if (dynamicRoute) {
+      current = current[dynamicRoute];
       continue;
     }
 
     current = null;
   }
 
-  return current as TController | null;
+  if (isController(current)) {
+    return current;
+  }
+
+  return null;
 };
 
 export { getController };
