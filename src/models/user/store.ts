@@ -1,19 +1,43 @@
-import { readFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 
-import type { TUserStore } from '@/types';
+import type { TUser, TUserStore } from '@/types';
 
 const pathToStore = new URL('./users.json', import.meta.url);
 
-async function useStore() {
-  try {
-    const rawUsers = await readFile(pathToStore, 'utf-8');
+function useStore() {
+  const get = async () => {
+    try {
+      const rawUsers = await readFile(pathToStore, 'utf-8');
 
-    return JSON.parse(rawUsers) as TUserStore;
-  } catch (e) {
-    console.error(e);
+      return JSON.parse(rawUsers) as TUserStore;
+    } catch (e) {
+      console.error('useStore: get', e);
 
-    return {};
-  }
+      return {};
+    }
+  };
+
+  const add = async (newUser: TUser) => {
+    const users = await get();
+
+    users[newUser.id] = newUser;
+
+    try {
+      await writeFile(pathToStore, JSON.stringify(users));
+
+      return true;
+    } catch (e) {
+      console.error('useStore: write', e);
+
+      return false;
+    }
+  };
+
+  const _delete = async () => {
+
+  };
+
+  return { get, add, delete: _delete };
 }
 
 export { useStore };

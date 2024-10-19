@@ -18,7 +18,7 @@ const server = createServer(async (req, res) => {
     res.statusCode = 404;
     res.write(responseError('Invalid route'));
   } catch (e) {
-    console.error(e);
+    console.error('createServer', e);
     res.statusCode = 500;
   } finally {
     res.end();

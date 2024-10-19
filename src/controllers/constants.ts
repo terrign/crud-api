@@ -1,12 +1,12 @@
 import type { TApi } from '@/types';
 
-import { getAllUsers, getUserById } from './user';
+import { createUser, getAllUsers, getUserById } from './user';
 
 const serverEndpoints = {
   api: {
     users: {
       GET: getAllUsers,
-      POST: async () => {},
+      POST: createUser,
       '[userid]': {
         GET: getUserById,
         DELETE: async () => {},

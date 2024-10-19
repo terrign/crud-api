@@ -1,21 +1,69 @@
-import { type UUID } from 'node:crypto';
+import { randomUUID, type UUID } from 'node:crypto';
+
+import type { TUser } from '@/types';
 
 import { useStore } from './store';
 
-const getAll = async () => {
-  const users = await useStore();
+type TValidateUserReturn = { ok: false; error: string } | { ok: true };
 
-  return users;
+const validateUser = (newUser: Omit<TUser, 'id'>): TValidateUserReturn => {
+  if (!newUser.age || !newUser.hobbies || !newUser.username) {
+    return { ok: false, error: 'Missing required fields. age: number, hobbies: Array<string>, username: string' };
+  }
+
+  if (typeof newUser.age !== 'number') {
+    return { ok: false, error: 'Age must be a number' };
+  }
+
+  if (typeof newUser.username !== 'string') {
+    return { ok: false, error: 'Username must be a string' };
+  }
+
+  if (!Array.isArray(newUser.hobbies)) {
+    return { ok: false, error: 'Hobbies must be an array' };
+  }
+
+  if (newUser.hobbies.some((it) => typeof it !== 'string')) {
+    return { ok: false, error: 'Hobbies must be an array of strings' };
+  }
+
+  return { ok: true };
+};
+
+const getAll = async () => {
+  const { get } = useStore();
+
+  return get();
 };
 
 const getById = async (id: UUID) => {
-  const users = await useStore();
+  const { get } = useStore();
 
-  return users[id];
+  return (await get())[id];
 };
 
-// const createUser = async (newUser: Omit<TUser, 'id'>) => {};
+type TCreateReturnType = { ok: false; desc: string } | { ok: true; desc: TUser };
+
+const create = async (newUser: Omit<TUser, 'id'>): Promise<TCreateReturnType> => {
+  const validated = validateUser(newUser);
+
+  if (!validated.ok) {
+    return { ok: false, desc: validated.error };
+  }
+
+  const newRecord = { id: randomUUID(), ...newUser };
+
+  const { add } = useStore();
+
+  const res = await add(newRecord);
+
+  if (res) {
+    return { ok: true, desc: newRecord };
+  }
+
+  return { ok: false, desc: 'Something went wrong' };
+};
 
 // const deleteUser = async (id: UUID) => {};
 
-export { getAll, getById };
+export { create, getAll, getById };
