@@ -3,11 +3,14 @@
   "name": "crud-api",
   "version": "0.0.0",
   "main": "src/index.ts",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "scripts": {
     "build": "webpack",
     "start:dev": "tsx watch src/index.ts",
     "start:prod": "pnpm run build && node dist/app.js",
-    "test": "jest",
+    "test": "jest --collect-coverage",
     "lint": "eslint --fix src/**/*.ts"
   },
   "type": "module",
