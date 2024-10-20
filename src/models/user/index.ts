@@ -33,13 +33,13 @@ const validateUser = (newUser: Omit<TUser, 'id'>): TValidateUserReturn => {
 const getAll = async () => {
   const { get } = useStore();
 
-  return get();
+  return Object.values(await get());
 };
 
-const getById = async (id: UUID) => {
+const getById = async (id: UUID): Promise<TUser | null> => {
   const { get } = useStore();
 
-  return (await get())[id];
+  return (await get())[id] ?? null;
 };
 
 type TCreateReturnType = { ok: false; desc: string } | { ok: true; desc: TUser };
@@ -112,4 +112,6 @@ const update = async (updatedUser: TUser): Promise<TCreateReturnType> => {
   return { ok: false, desc: 'User not found' };
 };
 
-export { create, getAll, getById, remove, update };
+const User = { create, getAll, getById, remove, update };
+
+export { User };

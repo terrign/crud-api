@@ -1,45 +1,41 @@
 import { serverEndpoints } from '@/controllers/constants';
-import type { TApi, TController, TDynamicRoute } from '@/types';
-import { isController, isDynamicRoute } from '@/types/guards';
+import type { TApi, TController } from '@/types';
+import { isDynamicRoute } from '@/types/guards';
 
 const getController = (path: string, method?: string): TController | null => {
   if (!method) {
     return null;
   }
 
-  const pathToController = [...path.split('/').filter(Boolean), method];
+  const pathToController = [...path.split('/').filter(Boolean)];
 
-  let current: TApi | TController | null = serverEndpoints;
+  let current: TApi | null = serverEndpoints;
 
   for (const path of pathToController) {
-    if (!current) {
+    const dynamicRoute = Object.keys(current).find(isDynamicRoute) as string;
+
+    if (!current[path] && !dynamicRoute) {
+      current = null;
       break;
     }
 
-    if (isController(current)) {
-      break;
-    }
-
-    if (path in current) {
-      current = current[path];
+    if (current[path]) {
+      current = current[path] as TApi;
       continue;
     }
-
-    const dynamicRoute: TDynamicRoute | undefined = Object.keys(current).find(isDynamicRoute);
 
     if (dynamicRoute) {
-      current = current[dynamicRoute];
-      continue;
+      current = current[dynamicRoute] as TApi;
     }
-
-    current = null;
   }
 
-  if (isController(current)) {
-    return current;
+  if (!current) {
+    return null;
   }
 
-  return null;
+  const controller = current[method] as TController | undefined;
+
+  return controller ?? null;
 };
 
 export { getController };

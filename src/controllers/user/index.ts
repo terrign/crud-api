@@ -1,6 +1,8 @@
-import { create, getAll, getById, remove, update } from '@/models/user';
+import { User } from '@/models/user';
 import { isValidId, type TController, type TUser } from '@/types';
 import { parseUrl, readBody, responseError } from '@/utils';
+
+const { create, getAll, getById, remove, update } = User;
 
 const getAllUsers: TController = async (req, res) => {
   const users = await getAll();
