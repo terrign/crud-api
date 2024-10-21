@@ -8,9 +8,10 @@
   },
   "scripts": {
     "build": "webpack",
-    "start:dev": "tsx watch src/index.ts",
+    "start:dev": "cross-env NODE_ENV=development tsx watch src/index.ts",
     "start:prod": "pnpm run build && node dist/app.js",
-    "test": "jest --collect-coverage",
+    "start:test": "cross-env NODE_ENV=test tsx watch src/index.ts",
+    "test": "jest --coverage",
     "lint": "eslint --fix src/**/*.ts"
   },
   "type": "module",
@@ -27,6 +28,9 @@
     "@typescript-eslint/eslint-plugin": "^8.10.0",
     "@typescript-eslint/parser": "^8.10.0",
     "clean-webpack-plugin": "^4.0.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
+    "dotenv-webpack": "^8.1.0",
     "eslint": "^9.12.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
