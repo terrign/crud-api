@@ -1,6 +1,16 @@
 ## Simple CRUD api
 
-#### User type:
+### Endpoints:
+
+- api/users
+  - GET
+  - POST
+- api/users/[userid]
+  - GET
+  - DELETE
+  - PUT
+
+### User type:
 
 <pre>
 type TUser = {
@@ -11,27 +21,17 @@ type TUser = {
 };
 </pre>
 
-#### Endpoints:
+### Installation
 
-- api/users
-  - GET
-  - POST
-- api/users/[userid]
-  - GET
-  - DELETE
-  - PUT
+#### 1. [Install Node.js >=22.0.0](https://nodejs.org/en/download/package-manager)
 
-#### Installation
-
-###### 1. [Install Node.js >=22.0.0](https://nodejs.org/en/download/package-manager)
-
-###### 2. Clone the repo
+#### 2. Clone the repo
 
 ```sh
 git clone -b develop https://github.com/terrign/crud-api.git
 ```
 
-###### 3. Install dependencies
+#### 3. Install dependencies
 
 ```sh
 cd crud-api
@@ -41,12 +41,38 @@ cd crud-api
 pnpm install
 ```
 
-###### 4. Run server
+#### 4. Run server
 
 ```sh
 pnpm start:prod
 ```
 
-Server is now listening at http://localhost:4000
+Server url: http://localhost:4000
 
-###### See [postman collection](./public/Simple_CRUD_API.postman_collection.json) for example requests.
+### Example requests
+
+See [postman collection](./public/Simple_CRUD_API.postman_collection.json)
+
+### Dev server
+
+```sh
+pnpm start:dev
+```
+
+Server url: http://localhost:5000
+
+### Tests
+
+#### 1. Run test server
+
+```sh
+pnpm start:test
+```
+
+Server url: http://localhost:3000
+
+#### 2. Run tests
+
+```sh
+pnpm test
+```
