@@ -1,8 +1,7 @@
 import { randomUUID, type UUID } from 'node:crypto';
 
+import { userStore } from '@/models/user/store';
 import type { TUser } from '@/types';
-
-import { useStore } from './store';
 
 type TValidateUserReturn = { ok: false; error: string } | { ok: true };
 
@@ -31,13 +30,13 @@ const validateUser = (newUser: Omit<TUser, 'id'>): TValidateUserReturn => {
 };
 
 const getAll = async () => {
-  const { get } = useStore();
+  const { get } = userStore;
 
   return Object.values(await get());
 };
 
 const getById = async (id: UUID): Promise<TUser | null> => {
-  const { get } = useStore();
+  const { get } = userStore;
 
   return (await get())[id] ?? null;
 };
@@ -60,7 +59,7 @@ const create = async (newUser: Omit<TUser, 'id'>): Promise<TCreateReturnType> =>
     age,
   };
 
-  const { add } = useStore();
+  const { add } = userStore;
 
   const res = await add(newRecord);
 
@@ -74,7 +73,7 @@ const create = async (newUser: Omit<TUser, 'id'>): Promise<TCreateReturnType> =>
 type TRemoveReturn = { ok: true } | { ok: false; desc: string };
 
 const remove = async (id: UUID): Promise<TRemoveReturn> => {
-  const { remove } = useStore();
+  const { remove } = userStore;
 
   const res = await remove(id);
 
@@ -101,7 +100,7 @@ const update = async (updatedUser: TUser): Promise<TCreateReturnType> => {
     age,
   };
 
-  const { update } = useStore();
+  const { update } = userStore;
 
   const res = await update(updatedRecord);
 

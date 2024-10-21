@@ -1,6 +1,6 @@
 import { createServer } from 'node:http';
 
-import { PORT } from '@/config';
+import { API_URL, PORT } from '@/config';
 import { getController } from '@/controllers';
 import { parseUrl, responseError } from '@/utils';
 
@@ -25,6 +25,6 @@ const server = createServer(async (req, res) => {
   }
 });
 
-server.listen(process.env.PORT, () => {
-  console.log(`Server running on port: ${PORT}`);
+server.listen(PORT, () => {
+  console.log(`Server url: ${API_URL}`);
 });

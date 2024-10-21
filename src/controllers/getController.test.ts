@@ -19,7 +19,7 @@ const incorrectCases = [
 
 ];
 
-describe(`correctCases`, () => {
+describe(`getController`, () => {
   it.each(correctCases)(`returns correct controller. Path: $path, method: $method`,
     ({ path, method, expected }) => {
       expect(getController(path, method)).toBe(expected);

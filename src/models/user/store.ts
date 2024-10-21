@@ -1,11 +1,11 @@
 import type { UUID } from 'node:crypto';
+import type { PathLike } from 'node:fs';
 import { readFile, writeFile } from 'node:fs/promises';
 
+import { USER_STORE_PATH } from '@/config';
 import type { TUser, TUserStore } from '@/types';
 
-const pathToStore = new URL('./users.json', import.meta.url);
-
-function useStore() {
+function createUserStore(pathToStore: PathLike) {
   const writeToStore = async (store: TUserStore) => {
     try {
       await writeFile(pathToStore, JSON.stringify(store));
@@ -67,4 +67,6 @@ function useStore() {
   return { get, add, remove, update };
 }
 
-export { useStore };
+const userStore = createUserStore(USER_STORE_PATH);
+
+export { createUserStore, userStore };
