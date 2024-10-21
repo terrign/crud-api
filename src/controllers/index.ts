@@ -1,0 +1,1 @@
+export { getController } from './getController';
