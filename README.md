@@ -69,7 +69,7 @@ Server url: http://localhost:5000
 pnpm start:test
 ```
 
-Server url: http://localhost:6000
+Server url: http://localhost:3000
 
 #### 2. Run tests
 

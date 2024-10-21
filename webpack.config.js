@@ -46,7 +46,13 @@ const config = {
     filename: 'app.js',
     module: true,
   },
-  plugins: [new CleanWebpackPlugin(), new Dotenv({ ignoreStub: true })],
+  plugins: [
+    new CleanWebpackPlugin(),
+    new Dotenv({
+      ignoreStub: true,
+      path: path.resolve(dirname, '.env.production'),
+    }),
+  ],
   module: {
     rules: [
       {
